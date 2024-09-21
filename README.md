@@ -4,7 +4,7 @@ The Diabetes Prediction System is a web-based application that predicts the like
 **Demo Video**
 
 
-[![Demo Video](https://img.youtube.com/vi/demo.mp4/0.jpg)](https://github.com/Sumbati10/Diabetes-Prediction-System/blob/main/demo.mp4)
+[![Demo Video](https://github.com/Sumbati10/Diabetes-Prediction-System/blob/main/demo.gif)
 
 
 # Diabetes classification 
