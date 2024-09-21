@@ -2,17 +2,13 @@ import numpy as np
 import pandas as pd
 from flask import Flask, request, jsonify, render_template
 import pickle
-from sklearn.preprocessing import MinMaxScaler
 
 app = Flask(__name__)
 model = pickle.load(open('logistic_regression_model.pkl', 'rb'))
 
-# Load and scale dataset (if needed for scaling purposes)
+# Load dataset (if needed for other purposes)
 dataset = pd.read_csv('diabetes.csv')
 dataset_X = dataset.iloc[:, [1, 2, 5, 7]].values
-
-sc = MinMaxScaler(feature_range=(0, 1))
-sc.fit(dataset_X)
 
 @app.route('/')
 def home():
@@ -34,11 +30,8 @@ def predict():
     final_features = np.array([[pregnancies, glucose, blood_pressure, skin_thickness,
                                 insulin, bmi, diabetes_pedigree_function, age]])
 
-    # Scale the features
-    scaled_features = sc.transform(final_features)
-
-    # Make prediction
-    prediction = model.predict(scaled_features)
+    # Make prediction without scaling
+    prediction = model.predict(final_features)
 
     # Determine output message based on prediction
     if prediction == 1:
