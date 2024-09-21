@@ -73,4 +73,7 @@ Access the application in your web browser at ```http://127.0.0.1:5000/```.
 - Click the "Predict" button to get the prediction result.
 - View the prediction result on the page.
 
+## Contact
+For any questions or feedback, please contact:
 
+Lindah Sumbati: sumbatilinda@gmail.com   
