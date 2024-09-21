@@ -1,22 +1,18 @@
 import numpy as np
 import pandas as pd
-from flask import Flask, request, render_template
+from flask import Flask, request, jsonify, render_template
 import pickle
 from sklearn.preprocessing import MinMaxScaler
 
-# Initialize the Flask app
 app = Flask(__name__)
-
-# Load the logistic regression model
 model = pickle.load(open('logistic_regression_model.pkl', 'rb'))
 
-# Load the dataset
+# Load and scale dataset (if needed for scaling purposes)
 dataset = pd.read_csv('diabetes.csv')
-dataset_X = dataset.iloc[:, [1, 2, 5, 7]].values  # Adjusted to match relevant columns
+dataset_X = dataset.iloc[:, [1, 2, 5, 7]].values
 
-# Scale the dataset
 sc = MinMaxScaler(feature_range=(0, 1))
-dataset_scaled = sc.fit_transform(dataset_X)
+sc.fit(dataset_X)
 
 @app.route('/')
 def home():
@@ -24,19 +20,27 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    '''
-    For rendering results on HTML GUI
-    '''
-    float_features = [float(x) for x in request.form.values()]
-    final_features = [np.array(float_features)]
-    
-    # Scale the input features
+    # Get the input values from the form
+    pregnancies = float(request.form['Pregnancies'])
+    glucose = float(request.form['Glucose'])
+    blood_pressure = float(request.form['BloodPressure'])
+    skin_thickness = float(request.form['SkinThickness'])
+    insulin = float(request.form['Insulin'])
+    bmi = float(request.form['BMI'])
+    diabetes_pedigree_function = float(request.form['DiabetesPedigreeFunction'])
+    age = float(request.form['Age'])
+
+    # Create a feature array with all 8 features
+    final_features = np.array([[pregnancies, glucose, blood_pressure, skin_thickness,
+                                insulin, bmi, diabetes_pedigree_function, age]])
+
+    # Scale the features
     scaled_features = sc.transform(final_features)
-    
+
     # Make prediction
     prediction = model.predict(scaled_features)
 
-    # Prepare output message
+    # Determine output message based on prediction
     if prediction == 1:
         output = "You have Diabetes, please consult a Doctor."
     else:
