@@ -70,7 +70,7 @@ Access the application in your web browser at ```http://127.0.0.1:5000/```.
 ## Usage
 - Open the application in your web browser.
 - Fill in the required health-related information in the form.
-- Click the "Submit" button to get the prediction result.
+- Click the "Predict" button to get the prediction result.
 - View the prediction result on the page.
 
 
